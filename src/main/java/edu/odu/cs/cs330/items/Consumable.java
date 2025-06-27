@@ -23,11 +23,10 @@ public class Consumable extends Item {
      * Default to a Consumable Item with an empty name, no effect and zero
      * uses.
      */
-    public Consumable()
-    {
+    public Consumable() {
         super("Consumable");
         this.effect = "";
-        this.uses   = 0;
+        this.uses = 0;
     }
 
     /**
@@ -35,10 +34,10 @@ public class Consumable extends Item {
      *
      * @param src consumable item to duplicate
      */
-    public Consumable(Consumable src)
-    {
+    public Consumable(Consumable src) {
         super(src.getName());
-
+        this.effect = src.effect;
+        this.uses = src.uses;
     }
 
     /**
@@ -46,8 +45,7 @@ public class Consumable extends Item {
      *
      * @return the set effect (i.e., buff or debuff)
      */
-    public String getEffect()
-    {
+    public String getEffect() {
         return this.effect;
     }
 
@@ -56,8 +54,7 @@ public class Consumable extends Item {
      *
      * @param newEff replacement effect
      */
-    public void setEffect(String newEff)
-    {
+    public void setEffect(String newEff) {
         this.effect = newEff;
     }
 
@@ -66,8 +63,7 @@ public class Consumable extends Item {
      *
      * @return number of total uses
      */
-    public int getNumberOfUses()
-    {
+    public int getNumberOfUses() {
         return this.uses;
     }
 
@@ -76,14 +72,12 @@ public class Consumable extends Item {
      *
      * @param allowed number of allowed uses
      */
-    public void setNumberOfUses(int allowed)
-    {
+    public void setNumberOfUses(int allowed) {
         this.uses = allowed;
     }
 
     @Override
-    public boolean isStackable()
-    {
+    public boolean isStackable() {
         return true;
     }
 
@@ -91,21 +85,19 @@ public class Consumable extends Item {
      * Read Consumable Item attributes.
      */
     @Override
-    public void read(Scanner snr)
-    {
+    public void read(Scanner snr) {
         super.name = snr.next();
-        effect     = snr.next();
-        uses       = snr.nextInt();
+        effect = snr.next();
+        uses = snr.nextInt();
     }
 
     /**
      * Clone--i.e., copy--this Consumable Item.
      */
     @Override
-    public Item clone()
-    {
+    public Item clone() {
         // Replace the next line
-        return null;
+        return new Consumable(this);
     }
 
     /**
@@ -114,16 +106,19 @@ public class Consumable extends Item {
      * @param rhs object for which a comparison is desired
      */
     @Override
-    public boolean equals(Object rhs)
-    {
+    public boolean equals(Object rhs) {
         if (!(rhs instanceof Consumable)) {
             return false;
         }
 
         Consumable rhsItem = (Consumable) rhs;
 
-        // Replace the next line
-        return false;
+        if (this.name.compareToIgnoreCase(rhsItem.getName()) != 0)
+            return false;
+        if (this.effect.compareToIgnoreCase(rhsItem.getEffect()) != 0)
+            return false;
+
+        return true;
     }
 
     /**
@@ -133,18 +128,26 @@ public class Consumable extends Item {
      * return the result.
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         // Replace the next line
-        return -1;
+        return (int) name.hashCode() + effect.hashCode();
     }
 
     /**
      * *Print* the Consumable Item.
      */
     @Override
-    public String toString()
-    {
-        return "";
+    public String toString() {
+        StringBuilder strBld = new StringBuilder();
+        strBld.append("  Nme: ")
+                .append(this.name)
+                .append(System.lineSeparator())
+                .append("  Eft: ")
+                .append(this.effect)
+                .append(System.lineSeparator())
+                .append("  Use: ")
+                .append(this.uses)
+                .append(System.lineSeparator());
+        return strBld.toString();
     }
 }
